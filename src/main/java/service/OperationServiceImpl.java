@@ -10,32 +10,8 @@ import java.util.stream.Collectors;
 
 public class OperationServiceImpl implements IOperationService {
     @Override
-    public void addBike(List<Bike> bikes) {
-        Scanner scanner = new Scanner(System.in);
-        boolean check = true;
-        while (check){
-            try {
-                check = false;
-                System.out.print("Write brand bike: ");
-                String brand = scanner.nextLine();
-                System.out.print("Write size of the wheels: ");
-                int size = Integer.parseInt(scanner.nextLine());
-                System.out.print("Write number of gears: ");
-                int numberOfGears = Integer.parseInt(scanner.nextLine());
-                System.out.print("Write weight: ");
-                long weight = Long.parseLong(scanner.nextLine());
-                System.out.print("Are availability of lights at front and back: ");
-                boolean lights = Boolean.parseBoolean(scanner.nextLine());
-                System.out.print("Write color of bike: ");
-                String color = scanner.nextLine();
-                System.out.print("Write price: ");
-                int price = Integer.parseInt(scanner.nextLine());
-                bikes.add(new Bike(brand, size, numberOfGears, weight, lights, color, price));
-            } catch (NumberFormatException e) {
-                System.out.println("Incorrect input format");
-                check = true;
-            }
-        }
+    public void addFoldingBike(List<Bike> bikes, Bike foldingBike) {
+        bikes.add(foldingBike);
     }
 
     @Override
@@ -59,47 +35,20 @@ public class OperationServiceImpl implements IOperationService {
     }
 
     @Override
-    public void addEBikeOrSpeedelec(List<Bike> bikes) {
-        Scanner scanner = new Scanner(System.in);
-        boolean check = true;
-        while (check) {
-            try {
-                check = false;
-                System.out.print("Write brand bike: ");
-                String brand = scanner.nextLine();
-                System.out.print("Write maximum speed (in km/h)");
-                int maxSpeed = Integer.parseInt(scanner.nextLine());
-                System.out.print("Write weight: ");
-                long weight = Long.parseLong(scanner.nextLine());
-                System.out.print("Are availability of lights at front and back: ");
-                boolean lights = Boolean.parseBoolean(scanner.nextLine());
-                System.out.print("Write battery capacity (in mAh): ");
-                long batteryCapacity = Long.parseLong(scanner.nextLine());
-                System.out.print("Write color of bike: ");
-                String color = scanner.nextLine();
-                System.out.print("Write price: ");
-                int price = Integer.parseInt(scanner.nextLine());
-                bikes.add(new Bike(brand, maxSpeed, weight, lights, batteryCapacity, color, price));
-            } catch (NumberFormatException e) {
-                System.out.println("Incorrect input");
-                check = true;
-            }
-        }
+    public void addEBikeOrSpeedelec(List<Bike> bikes, Bike speedelecOrEbike) {
+        bikes.add(speedelecOrEbike);
     }
 
     @Override
-    public void findBikeByBrand(List<Bike> bikes) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            System.out.print("Write brand bike: ");
-            String brand = reader.readLine();
-            List<Bike> res = bikes.stream()
-                    .filter(bike -> bike.getBrand().equals(brand))
-                    .collect(Collectors.toList());
-            res.forEach(System.out::println);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void findBikeByBrand(List<Bike> bikes, String brand) {
+            List<Bike> result = findBikes(bikes, brand);
+            result.forEach(System.out::println);
+    }
+
+    protected List<Bike> findBikes(List<Bike> bikes, String brand){
+        return bikes.stream()
+                .filter(bike -> bike.getBrand().equals(brand))
+                .collect(Collectors.toList());
     }
 
     @Override

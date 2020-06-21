@@ -1,4 +1,5 @@
 import model.Bike;
+import service.InterfaceForConsole;
 import service.OperationServiceImpl;
 
 import java.io.BufferedReader;
@@ -12,6 +13,7 @@ public class AppInterface {
         int choice;
         boolean ischeck = true;
         OperationServiceImpl operationService = new OperationServiceImpl();
+        InterfaceForConsole interfaceForConsole = new InterfaceForConsole();
         List<Bike> bikes = operationService.readFile("ecobike.txt");
 
         while (ischeck){
@@ -30,12 +32,17 @@ public class AppInterface {
                     case 1:
                         operationService.showAllBikes(bikes);
                         break;
-                    case 2: operationService.addBike(bikes); break;
-                    case 3: operationService.addEBikeOrSpeedelec(bikes); break;
-                    case 4: operationService.addEBikeOrSpeedelec(bikes); break;
-                    case 5: operationService.findBikeByBrand(bikes); break;
-                    case 6: operationService.writeBikesToFile("ecobike.txt", bikes); break;
-                    case 7: ischeck = false; break;
+                    case 2:
+                        Bike foldingBike = interfaceForConsole.enteredParametersForAddFoldingBike();
+                        operationService.addFoldingBike(bikes, foldingBike); break;
+                    case 3:
+                        Bike speedelecOrEbike = interfaceForConsole.enteredParametersForAddSpeedelecOrEBike();
+                        operationService.addEBikeOrSpeedelec(bikes, speedelecOrEbike); break;
+                    case 4:
+                        String brand = interfaceForConsole.enterBrandForFindBike();
+                        operationService.findBikeByBrand(bikes, brand); break;
+                    case 5: operationService.writeBikesToFile("ecobike.txt", bikes); break;
+                    case 6: ischeck = false; break;
                     default: System.out.println("Operation isn't a found"); break;
                 }
             } catch (IOException e) {
